@@ -1,43 +1,67 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Data.SqlClient;
 using System.Windows.Forms;
 
-namespace Парикмахерская
+namespace СалонКрасоты
 {
     public partial class AdminForm : Form
     {
         public AdminForm()
         {
             InitializeComponent();
+            additemscombobox();
         }
 
         private void AdminForm_Load(object sender, EventArgs e)
         {
-            // TODO: данная строка кода позволяет загрузить данные в таблицу "парикмахерскаяDataSet2.Пользователи". При необходимости она может быть перемещена или удалена.
-            this.пользователиTableAdapter.Fill(this.парикмахерскаяDataSet2.Пользователи);
-            // TODO: данная строка кода позволяет загрузить данные в таблицу "парикмахерскаяDataSet.Филиалы". При необходимости она может быть перемещена или удалена.
-            this.филиалыTableAdapter.Fill(this.парикмахерскаяDataSet.Филиалы);
-            // TODO: данная строка кода позволяет загрузить данные в таблицу "парикмахерскаяDataSet.Клиенты". При необходимости она может быть перемещена или удалена.
-            this.клиентыTableAdapter.Fill(this.парикмахерскаяDataSet.Клиенты);
-            // TODO: данная строка кода позволяет загрузить данные в таблицу "парикмахерскаяDataSet.Работа". При необходимости она может быть перемещена или удалена.
-            this.работаTableAdapter.Fill(this.парикмахерскаяDataSet.Работа);
-            // TODO: данная строка кода позволяет загрузить данные в таблицу "парикмахерскаяDataSet.Стрижки". При необходимости она может быть перемещена или удалена.
-            this.стрижкиTableAdapter.Fill(this.парикмахерскаяDataSet.Стрижки);
 
         }
 
-        private void стрижкиBindingNavigatorSaveItem_Click(object sender, EventArgs e)
+        private void additemscombobox()
         {
-            this.Validate();
-            this.стрижкиBindingSource.EndEdit();
-            this.tableAdapterManager.UpdateAll(this.парикмахерскаяDataSet);
+            string connectionString = @" Data Source= MARGARITA; Initial catalog=Парикмахерская; Integrated Security=True";
+            SqlConnection MyConnection = new SqlConnection(connectionString);
 
+            string checkLogCommand = "select [Код роли],Роль from [Роли]";
+            SqlCommand checkLogComman = new SqlCommand(checkLogCommand, MyConnection);
+
+
+            MyConnection.Open();
+            SqlDataReader read = checkLogComman.ExecuteReader();
+
+
+            while (read.Read())
+            {
+                comboBox1.Items.Add(read[0]);
+            }
+            read.Close();
+            MyConnection.Close();
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            //сделать чтобы в комбо были роли текстом, записывалось цифрами
+
+            var login = textBox1.Text;
+            var role = comboBox1.Text;
+            var password = md5.HashPassword(textBox2.Text);
+            string connectionString = @" Data Source= MARGARITA; Initial catalog=Парикмахерская; Integrated Security=True";
+            SqlConnection MyConnection = new SqlConnection(connectionString);
+            MyConnection.Open();
+            SqlCommand command = new SqlCommand($"Insert into Пользователи(Логин, [Код роли], ХэшПароль) values('{login}','{role}','{password}')",MyConnection);
+           
+            if (command.ExecuteNonQuery () == 1)
+            {
+               MessageBox.Show("Аккаунт успешно создан!", "Успешно!");
+               Form1 form = new Form1();
+               form.Show();
+               this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("Аккаунт не создан! Ошибка!");
+            }
+            MyConnection.Close();
         }
     }
 }

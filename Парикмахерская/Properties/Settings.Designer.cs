@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Парикмахерская.Properties {
+namespace СалонКрасоты.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

@@ -10,7 +10,7 @@
 
 #pragma warning disable 1591
 
-namespace Парикмахерская {
+namespace СалонКрасоты {
     
     
     /// <summary>
@@ -2214,7 +2214,7 @@ namespace Парикмахерская {
         }
     }
 }
-namespace Парикмахерская.ПарикмахерскаяDataSetTableAdapters {
+namespace СалонКрасоты.ПарикмахерскаяDataSetTableAdapters {
     
     
     /// <summary>
@@ -2384,7 +2384,7 @@ SELECT [Код клиента], ФИО, Пол, Категория FROM Клие
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::Парикмахерская.Properties.Settings.Default.ПарикмахерскаяConnectionString;
+            this._connection.ConnectionString = global::СалонКрасоты.Properties.Settings.Default.ПарикмахерскаяConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2769,7 +2769,7 @@ SELECT [Код работы], [Код стрижки], [Код клиента], 
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::Парикмахерская.Properties.Settings.Default.ПарикмахерскаяConnectionString;
+            this._connection.ConnectionString = global::СалонКрасоты.Properties.Settings.Default.ПарикмахерскаяConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3193,7 +3193,7 @@ SELECT [Код стрижки], Название, Пол, Стоимость FRO
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::Парикмахерская.Properties.Settings.Default.ПарикмахерскаяConnectionString;
+            this._connection.ConnectionString = global::СалонКрасоты.Properties.Settings.Default.ПарикмахерскаяConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3575,7 +3575,7 @@ SELECT [Код филиала], Филиал FROM Филиалы WHERE ([Код 
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::Парикмахерская.Properties.Settings.Default.ПарикмахерскаяConnectionString;
+            this._connection.ConnectionString = global::СалонКрасоты.Properties.Settings.Default.ПарикмахерскаяConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

@@ -9,7 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Парикмахерская
+
+namespace СалонКрасоты
 {
     public partial class Form1 : Form
     {
@@ -18,41 +19,28 @@ namespace Парикмахерская
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        public string Result { get; set; }
+        public string Result2 { get; set; }
+        public string Result3 { get; set; }
+
+        public void button1_Click(object sender, EventArgs e)
         {
             string connectionString = @" Data Source= MARGARITA; Initial catalog=Парикмахерская; Integrated Security=True";
             SqlConnection MyConnection = new SqlConnection(connectionString);
+            var loginUser = textBox1.Text;
+            var passUser = md5.HashPassword(textBox2.Text);
 
 
-            SqlParameter pLog = new SqlParameter("@login", textBox1.Text);
-            SqlParameter pPass = new SqlParameter("@password", textBox2.Text);
-            SqlParameter pLog2 = new SqlParameter("@login", textBox1.Text);
-            SqlParameter pPass2 = new SqlParameter("@password", textBox2.Text);
-            SqlParameter pLog3 = new SqlParameter("@login", textBox1.Text);
-
-
-            string checkLogCommand = " select COUNT (*) from Пользователи where [логин] = @login";
-
-            string checkPassCommand = " SELECT COUNT (*) FROM [Пользователи] WHERE [логин] = @login and [ХэшПароль] = HASHBYTES('SHA1', @password)";
-
-            string QueryRoleSQL = " SELECT [Роль] FROM [Пользователи] WHERE [логин] = @login and [ХэшПароль] = HASHBYTES('SHA1', @password)";
-
-
+            string checkLogCommand = $" select COUNT (*) from Пользователи where [логин] = '{loginUser}' and Хэшпароль = '{passUser}'";
             SqlCommand checkLogComman = new SqlCommand(checkLogCommand, MyConnection);
+            string checkPassCommand = $"SELECT COUNT (*) FROM [Пользователи] WHERE [логин] = '{loginUser}' and Хэшпароль = '{passUser}'";
             SqlCommand checkPassComman = new SqlCommand(checkPassCommand, MyConnection);
+            string QueryRoleSQL = $" SELECT [Роли].[Роль] FROM [Пользователи] inner join [Роли] on [Роли].[Код роли] = [Пользователи].[Код роли] WHERE [логин] = '{loginUser}' and Хэшпароль = '{passUser}'";
             SqlCommand checkRoleComman = new SqlCommand(QueryRoleSQL, MyConnection);
 
 
-            checkLogComman.Parameters.Add(pLog);
-            checkPassComman.Parameters.Add(pLog2);
-            checkPassComman.Parameters.Add(pPass);
-            checkRoleComman.Parameters.Add(pLog3);
-            checkRoleComman.Parameters.Add(pPass2);
-
             MyConnection.Open();
-            string result;
-            string result2;
-            string result3;
+
 
             if (textBox1.Text == "" || textBox2.Text == "")
             {
@@ -60,31 +48,31 @@ namespace Парикмахерская
                 MyConnection.Close();
             }
 
-            result = checkLogComman.ExecuteScalar().ToString();
+            Result = checkLogComman.ExecuteScalar().ToString();
 
-            if (result != "1")
+            if (Result != "1")
             {
                 MessageBox.Show("Неверные данные!");
                 MyConnection.Close();
             }
 
-            result2 = checkPassComman.ExecuteScalar().ToString();
+            Result2 = checkPassComman.ExecuteScalar().ToString();
 
-            if (result2 != "1")
+            if (Result2 != "1")
             {
                 MessageBox.Show("Вы ввели неверный пароль");
-                MyConnection.Close();
+                
             }
 
-            result3 = checkRoleComman.ExecuteScalar().ToString();
+            Result3 = checkRoleComman.ExecuteScalar().ToString();
 
 
 
-            if (result == "1")
+            if (Result == "1")
             {
-                if (result2 == "1")
+                if (Result2 == "1")
                 {
-                    switch (result3)
+                    switch (Result3)
                     {
                         case "admin":
                             AdminForm form2 = new AdminForm();
@@ -92,7 +80,7 @@ namespace Парикмахерская
                             this.Hide();
                             break;
                         case "hairdresser":
-                            HairdresserForm form3 = new HairdresserForm();
+                            AccountantForm form3 = new AccountantForm();
                             form3.Show();
                             this.Hide();
                             break ;
@@ -111,6 +99,18 @@ namespace Парикмахерская
                 }
             }
            
+        }
+
+        public void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            AdminForm form = new AdminForm();
+            form.Show();
+            this.Hide();
         }
     }
 }
